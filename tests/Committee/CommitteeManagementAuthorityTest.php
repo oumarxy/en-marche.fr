@@ -8,9 +8,9 @@ use AppBundle\Committee\CommitteeUrlGenerator;
 use AppBundle\DataFixtures\ORM\LoadAdherentData;
 use AppBundle\Entity\Adherent;
 use AppBundle\Entity\Committee;
-use AppBundle\Mailjet\MailjetService;
-use AppBundle\Mailjet\Message\CommitteeApprovalConfirmationMessage;
-use AppBundle\Mailjet\Message\CommitteeApprovalReferentMessage;
+use AppBundle\Mailer\MailerService;
+use AppBundle\Mailer\Message\CommitteeApprovalConfirmationMessage;
+use AppBundle\Mailer\Message\CommitteeApprovalReferentMessage;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
@@ -38,7 +38,7 @@ class CommitteeManagementAuthorityTest extends TestCase
         $manager->expects($this->once())->method('getCommitteeCreator')->willReturn($animator);
         $manager->expects($this->once())->method('getCommitteeReferent')->willReturn($referent);
 
-        $mailer = $this->createMock(MailjetService::class);
+        $mailer = $this->createMock(MailerService::class);
         $mailer->expects($this->at(0))
             ->method('sendMessage')
             ->with($this->isInstanceOf(CommitteeApprovalConfirmationMessage::class));
