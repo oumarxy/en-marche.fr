@@ -428,10 +428,6 @@ class AdherentControllerTest extends MysqlWebTestCase
                 'gisele-berthoux@caramail.com',
                 'ILoveYouManu',
             ],
-            'Benjamin Duroc created a committee that is still under approval' => [
-                'benjyd@aol.com',
-                'HipHipHip',
-            ],
         ];
     }
 
