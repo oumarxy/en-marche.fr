@@ -128,6 +128,20 @@ abstract class Message
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8', false);
     }
 
+    protected static function formatDate(\DateTime $date, string $format): string
+    {
+        $formatter = new \IntlDateFormatter(
+            'fr_FR',
+            \IntlDateFormatter::NONE,
+            \IntlDateFormatter::NONE,
+            $date->getTimezone(),
+            \IntlDateFormatter::GREGORIAN,
+            $format
+        );
+
+        return $formatter->format($date);
+    }
+
     public function getSenderEmail(): ?string
     {
         return $this->senderEmail;

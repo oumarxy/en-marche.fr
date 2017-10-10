@@ -40,7 +40,7 @@ class EventNotificationMessage extends Message
         $vars = static::getTemplateVars(
             $host->getFirstName(),
             $event->getName(),
-            $event->getDesription(),
+            $event->getDescription(),
             static::formatDate($event->getBeginAt(), 'EEEE d MMMM y'),
             sprintf(
                 '%sh%s',
@@ -114,19 +114,5 @@ class EventNotificationMessage extends Message
         return [
             'target_firstname' => self::escape($firstName),
         ];
-    }
-
-    private static function formatDate(\DateTime $date, string $format): string
-    {
-        $formatter = new \IntlDateFormatter(
-            'fr_FR',
-            \IntlDateFormatter::NONE,
-            \IntlDateFormatter::NONE,
-            $date->getTimezone(),
-            \IntlDateFormatter::GREGORIAN,
-            $format
-        );
-
-        return $formatter->format($date);
     }
 }

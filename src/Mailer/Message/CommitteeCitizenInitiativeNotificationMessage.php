@@ -39,7 +39,7 @@ final class CommitteeCitizenInitiativeNotificationMessage extends Message
         $vars = static::getTemplateVars(
             $feedItem->getAuthorFirstName(),
             $citizenInitiative->getName(),
-            $citizenInitiative->getDesription(),
+            $citizenInitiative->getDescription(),
             self::formatDate($citizenInitiative->getBeginAt(), 'EEEE d MMMM y'),
             sprintf(
                 '%sh%s',
@@ -103,19 +103,5 @@ final class CommitteeCitizenInitiativeNotificationMessage extends Message
         return [
             'prenom' => self::escape($firstName),
         ];
-    }
-
-    private static function formatDate(\DateTime $date, string $format): string
-    {
-        $formatter = new \IntlDateFormatter(
-            'fr_FR',
-            \IntlDateFormatter::NONE,
-            \IntlDateFormatter::NONE,
-            $date->getTimezone(),
-            \IntlDateFormatter::GREGORIAN,
-            $format
-        );
-
-        return $formatter->format($date);
     }
 }

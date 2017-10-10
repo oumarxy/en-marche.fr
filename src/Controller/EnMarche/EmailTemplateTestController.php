@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller\EnMarche;
 
-use AppBundle\Entity\MailjetTemplate;
+use AppBundle\Mailer\Message\MessageRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,11 +21,8 @@ class EmailTemplateTestController extends Controller
     {
         $this->checkEnvironment();
 
-        $templates = $this->getDoctrine()->getRepository(MailjetTemplate::class)->findAll();
-
-        usort($templates, function (MailjetTemplate $a, MailjetTemplate $b) {
-            return strcmp($a->getMessageClass(), $b->getMessageClass());
-        });
+        $registry = new MessageRegistry();
+        $templates = $registry->getTypes();
 
         return $this->render('email/list.html.twig', [
             'templates' => $templates,
@@ -59,7 +56,7 @@ class EmailTemplateTestController extends Controller
         // profiler toolbar should not interact with the template content
         $this->get('profiler')->disable();
 
-        $template = $this->get('twig')->load(sprintf('email/template/%s.html.twig', $templateName));
+        $template = $this->get('twig')->load(sprintf('email/template/%s_message.html.twig', $templateName));
 
         if (!$template->hasBlock($blockName)) {
             throw $this->createNotFoundException(sprintf('The template "%s" has no "%s" block.', $templateName, $blockName));

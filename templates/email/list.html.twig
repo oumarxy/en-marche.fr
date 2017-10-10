@@ -1,15 +1,15 @@
 {% if templates|length %}
     <table>
-        {% for template in templates %}
+        {% for class,name in templates %}
             <tr>
-                <td>{{ template.name }}</td>
+                <td>{{ name }}</td>
                 <td>
-                    <a href="{{ path('app_email_template_html', {name: template.name}) }}">
+                    <a href="{{ path('app_email_template_html', {name: name}) }}">
                         html
                     </a>
                 </td>
                 <td>
-                    <a href="{{ path('app_email_template_text', {name: template.name}) }}">
+                    <a href="{{ path('app_email_template_text', {name: name}) }}">
                         text
                     </a>
                 </td>
