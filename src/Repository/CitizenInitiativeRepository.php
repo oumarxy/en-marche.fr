@@ -11,17 +11,15 @@ class CitizenInitiativeRepository extends EventRepository
     const TYPE_UPCOMING = 'upcoming';
     const TYPE_ALL = 'all';
 
-    protected function createUuidQueryBuilder(string $uuid): QueryBuilder
+    protected function createSlugQueryBuilder(string $slug): QueryBuilder
     {
-        self::validUuid($uuid);
-
         return $this
             ->createQueryBuilder('e')
             ->select('e', 'a', 'o')
             ->leftJoin('e.citizenInitiativeCategory', 'a')
             ->leftJoin('e.organizer', 'o')
-            ->where('e.uuid = :uuid')
-            ->setParameter('uuid', $uuid)
+            ->where('e.slug = :slug')
+            ->setParameter('slug', $slug)
             ->andWhere('e.published = :published')
             ->setParameter('published', true)
             ;
