@@ -21,26 +21,25 @@ class AdherentFactory
         $this->addressFactory = $addressFactory ?: new PostAddressFactory();
     }
 
-    public function createFromMembershipRequest(MembershipRequest $request): Adherent
+    public function createFromAPIResponse(array $data): Adherent
     {
         return new Adherent(
-            Adherent::createUuid($request->getEmailAddress()),
-            $request->getEmailAddress(),
-            $request->gender,
-            $request->firstName,
-            $request->lastName,
-            clone $request->getBirthdate(),
-            $request->position,
-            $this->addressFactory->createFromAddress($request->getAddress()),
-            $request->getPhone(),
+            Uuid::fromString($data['uuid']),
+            $data['emailAddress'],
+            null,
+            null,
+            $data['firstName'],
+            $data['lastName'],
+            null,
+            null,
+            $this->addressFactory->createFlexible(null, $data['zipCode'], null, null),
+            null,
             Adherent::ENABLED,
-            'now',
-            $request->comEmail,
-            $request->comMobile
+            'now'
         );
     }
 
-    public function createFromArray(array $data): Adherent
+    public function createFromArray(array $data, bool $enabled = false): Adherent
     {
         $phone = null;
         if (isset($data['phone'])) {
@@ -50,18 +49,16 @@ class AdherentFactory
         return new Adherent(
             isset($data['uuid']) ? Uuid::fromString($data['uuid']) : Adherent::createUuid($data['email']),
             $data['email'],
-            $data['gender'],
+            isset($data['password']) ? $this->encodePassword($data['password']) : null,
+            isset($data['gender']) ? $data['gender'] : null,
             $data['first_name'],
             $data['last_name'],
-            $this->createBirthdate($data['birthdate']),
+            isset($data['birthdate']) ? $this->createBirthdate($data['birthdate']) : null,
             isset($data['position']) ? $data['position'] : ActivityPositions::EMPLOYED,
-            $data['address'],
+            isset($data['address']) ? $data['address'] : null,
             $phone,
-            Adherent::DISABLED,
-            isset($data['registered_at']) ? $data['registered_at'] : 'now',
-            false,
-            false,
-            isset($data['password']) ? $this->encodePassword($data['password']) : null
+            $enabled ? Adherent::ENABLED : Adherent::DISABLED,
+            isset($data['registered_at']) ? $data['registered_at'] : 'now'
         );
     }
 

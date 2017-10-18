@@ -5,15 +5,11 @@ namespace AppBundle\Membership;
 use AppBundle\Address\Address;
 use AppBundle\Entity\Adherent;
 use AppBundle\Validator\Recaptcha as AssertRecaptcha;
-use AppBundle\Validator\UniqueMembership as AssertUniqueMembership;
 use AppBundle\ValueObject\Genders;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @AssertUniqueMembership
- */
 class MembershipRequest implements MembershipInterface
 {
     /**
@@ -105,11 +101,10 @@ class MembershipRequest implements MembershipInterface
         $this->address = new Address();
     }
 
-    public static function createWithCaptcha(string $recaptchaAnswer = null): self
+    public static function createFromAdherentWithCaptcha(Adherent $adherent, string $recaptchaAnswer = null): self
     {
-        $dto = new self();
+        $dto = self::createFromAdherent($adherent);
         $dto->recaptcha = $recaptchaAnswer;
-        $dto->phone = static::createPhoneNumber();
 
         return $dto;
     }
