@@ -27,10 +27,6 @@ class MapController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/evenements/la-carte", name="map_events")
-     * @Method("GET")
-     */
     public function eventsAction()
     {
         $doctrine = $this->getDoctrine();

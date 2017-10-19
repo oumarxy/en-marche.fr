@@ -64,8 +64,8 @@ class DynamicRedirectionsSubscriber implements EventSubscriberInterface
 
             if ('/evenements/' === $patternToMatch
                 && ($routeParams = $this->urlMatcher->match($requestUri))
-                && isset($routeParams['uuid'])
-                && ($eventEntity = $this->eventRepository->findOneByUuid($routeParams['uuid']))
+                && isset($routeParams['slug'])
+                && ($eventEntity = $this->eventRepository->findOneBySlug($routeParams['slug']))
                 && !$eventEntity->isPublished()) {
                 $redirectCode = Response::HTTP_FOUND;
             }
