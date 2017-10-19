@@ -54,3 +54,5 @@ parameters:
     env(ENABLE_SILENCE_RULE):   'false'
 
     env(SESSION_MAX_IDLE_TIME): 1800
+
+    env(ENMARCHE_DOMAIN): 'enmarche.dev'

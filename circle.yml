@@ -10,6 +10,7 @@ machine:
         DATABASE_USER: ubuntu
         DATABASE_PASSWORD: ''
         DATABASE_NAME: circle_test
+        ENMARCHE_DOMAIN: 127.0.0.1
     services:
         - docker
 
